@@ -3,14 +3,23 @@ package jp.bayastea.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import jp.bayastea.myapplication.ui.theme.MyApplicationTheme
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import jp.bayastea.myapplication.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Top(Modifier.fillMaxSize())
                 }
             }
         }
@@ -30,14 +39,67 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Top(modifier: Modifier) {
+    val navController: NavHostController = rememberNavController()
+    Column(modifier = modifier, verticalArrangement = Arrangement.Bottom) {
+        createNavHost(navController = navController, modifier = Modifier.weight(1.0F))
+        createBottomNavigation(navController = navController)
+    }
+}
+
+@Composable
+fun createNavHost(navController: NavHostController, modifier: Modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = "all",
+        modifier = modifier
+    ) {
+        composable("recentUsed") { RecentUsedContent(name = "recentUsed") }
+        composable("favorite") { FavoriteContent("favorite") }
+        composable("all") { AllContent(name = "all") }
+    }
+}
+
+@Composable
+fun createBottomNavigation(navController: NavHostController) {
+    val items = listOf(
+        Screen.RecentUsed,
+        Screen.Favorite,
+        Screen.All
+    )
+
+    BottomNavigation() {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        items.forEach { screen ->
+            BottomNavigationItem(
+                icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                label = { Text(stringResource(screen.resourceId)) },
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        Greeting("Android")
+        Top(Modifier.fillMaxSize())
     }
 }
