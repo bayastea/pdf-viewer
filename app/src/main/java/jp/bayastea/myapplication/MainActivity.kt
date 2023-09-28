@@ -52,7 +52,7 @@ fun Top(modifier: Modifier) {
 fun createNavHost(navController: NavHostController, modifier: Modifier) {
     NavHost(
         navController = navController,
-        startDestination = "all",
+        startDestination = "recentUsed",
         modifier = modifier
     ) {
         composable("recentUsed") { RecentUsedContent(name = "recentUsed") }
