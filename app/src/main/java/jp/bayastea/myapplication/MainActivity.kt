@@ -55,7 +55,7 @@ fun createNavHost(navController: NavHostController, modifier: Modifier) {
         startDestination = "all",
         modifier = modifier
     ) {
-        composable("recentUsed") { RecentUsedContent(name = "recentUsed") }
+        composable("recentUsed") { RecentUsedContent() }
         composable("favorite") { FavoriteContent("favorite") }
         composable("all") { AllContent(name = "all") }
     }
