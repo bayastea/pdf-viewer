@@ -3,13 +3,18 @@ package jp.bayastea.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -43,6 +48,14 @@ class MainActivity : ComponentActivity() {
 fun Top(modifier: Modifier) {
     val navController: NavHostController = rememberNavController()
     Column(modifier = modifier, verticalArrangement = Arrangement.Bottom) {
+        TopAppBar(
+            title = { Text("TopAppBar") },
+            actions = {
+                IconButton(onClick = { /* do something */ }) {
+                    Icon(Icons.Filled.AddCircle, contentDescription = "Edit text")
+                }
+            }
+        )
         createNavHost(navController = navController, modifier = Modifier.weight(1.0F))
         createBottomNavigation(navController = navController)
     }
@@ -95,6 +108,10 @@ fun createBottomNavigation(navController: NavHostController) {
             )
         }
     }
+}
+
+fun callSelectFile() {
+
 }
 
 @Preview(showBackground = true)
