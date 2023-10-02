@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
@@ -19,6 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -131,20 +137,27 @@ fun RecentUSedItem(message: PdfItem) {
                     .padding(16.dp)
                     .fillMaxHeight()
             ) {
-
+                Spacer(modifier = Modifier.width(32.dp))
                 Row() {
-
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Favorite), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "お気に入りに追加")
                 }
-                Text(text = "text")
+                Spacer(modifier = Modifier.height(16.dp))
+                Row() {
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Delete), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "削除")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row() {
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Edit), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "名前を変更")
+                }
             }
         }
     }
-
-    // 下記のような書き方もある（https://qiita.com/ntsk/items/29d22763dd0234bc9150）
-    // (上記はM3のライブラリの書き方)
-//    ModalBottomSheetLayout(sheetContent = Modal内で表示したいComposable, content = Modalを表示する親のビュー  ) {
-//
-//    }
 }
 
 @Preview(showBackground = true)
