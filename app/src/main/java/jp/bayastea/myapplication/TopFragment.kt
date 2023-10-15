@@ -1,4 +1,4 @@
-package jp.bayastea.myapplication.ui.theme
+package jp.bayastea.myapplication
 
 import android.app.Fragment
 import androidx.compose.foundation.layout.Column

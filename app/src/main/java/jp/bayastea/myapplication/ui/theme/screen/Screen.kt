@@ -1,4 +1,4 @@
-package jp.bayastea.myapplication.ui.theme
+package jp.bayastea.myapplication.ui.theme.screen
 
 import androidx.annotation.StringRes
 import jp.bayastea.myapplication.R
