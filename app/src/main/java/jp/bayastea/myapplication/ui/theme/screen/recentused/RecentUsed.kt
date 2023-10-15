@@ -1,23 +1,30 @@
 package jp.bayastea.myapplication.ui.theme
 
 import android.os.Bundle
-import android.view.Gravity
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.End
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,8 +93,11 @@ data class PdfItem(
     val fileSize: String
 )
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun RecentUSedItem(message: PdfItem) {
+
+    val showModal = remember { mutableStateOf(false) }
     Column(
         Modifier
             .border(
@@ -106,8 +116,48 @@ fun RecentUSedItem(message: PdfItem) {
             Spacer(modifier = Modifier.padding(8.dp))
             Image(
                 painter = painterResource(R.drawable.more_horiz_24px),
-                contentDescription = "Show Menu"
+                contentDescription = "Show Menu",
+                Modifier.clickable {
+
+                    showModal.value = true
+                }
             )
+        }
+    }
+
+    if (showModal.value) {
+        ModalBottomSheet(
+            modifier = Modifier.fillMaxHeight(),
+            onDismissRequest = { showModal.value = false },
+            dragHandle = null
+        ) {
+            // Sheet content
+            Column(
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxHeight()
+            ) {
+                Spacer(modifier = Modifier.width(32.dp))
+                Row(Modifier.clickable {
+                    showModal.value = false
+                }) {
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Favorite), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "お気に入りに追加")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row() {
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Delete), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "削除")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Row() {
+                    Image(painter = rememberVectorPainter(image = Icons.Filled.Edit), contentDescription = "Add favorite")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "名前を変更")
+                }
+            }
         }
     }
 }

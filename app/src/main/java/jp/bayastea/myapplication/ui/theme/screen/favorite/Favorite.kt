@@ -1,4 +1,4 @@
-package jp.bayastea.myapplication.ui.theme
+package jp.bayastea.myapplication.ui.theme.screen.favorite
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

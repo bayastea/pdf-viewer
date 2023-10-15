@@ -21,6 +21,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import jp.bayastea.myapplication.ui.theme.*
+import jp.bayastea.myapplication.ui.theme.screen.Screen
+import jp.bayastea.myapplication.ui.theme.screen.favorite.FavoriteContent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
