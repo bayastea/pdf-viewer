@@ -138,7 +138,9 @@ fun RecentUSedItem(message: PdfItem) {
                     .fillMaxHeight()
             ) {
                 Spacer(modifier = Modifier.width(32.dp))
-                Row() {
+                Row(Modifier.clickable {
+                    showModal.value = false
+                }) {
                     Image(painter = rememberVectorPainter(image = Icons.Filled.Favorite), contentDescription = "Add favorite")
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(text = "お気に入りに追加")
